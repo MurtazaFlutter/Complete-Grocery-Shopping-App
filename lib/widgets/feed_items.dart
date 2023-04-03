@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_shopping_with_admin_panel/models/products_model.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
@@ -41,139 +42,139 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     final products = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
 
+    Size size = Utils(context).getScreenSize;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Material(
-          borderRadius: BorderRadius.circular(12),
-          color: Theme.of(context).cardColor,
-          child: InkWell(
-            onTap: () {
-              // GlobalMethods.navigateTo(
-              //     ctx: context, routeName: ProductDetails.routeName);
-              Navigator.pushNamed(context, ProductDetails.routeName,
-                  arguments: products.id);
-            },
-            borderRadius: BorderRadius.circular(12),
-            child: Column(children: [
-              Expanded(
-                child: CachedNetworkImage(
+      padding: EdgeInsets.all(8.0.r),
+      child: Material(
+        borderRadius: BorderRadius.circular(12.r),
+        color: Theme.of(context).cardColor,
+        child: InkWell(
+          onTap: () {
+            // GlobalMethods.navigateTo(
+            //     ctx: context, routeName: ProductDetails.routeName);
+            Navigator.pushNamed(context, ProductDetails.routeName,
+                arguments: products.id);
+          },
+          borderRadius: BorderRadius.circular(12.r),
+          child: Column(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CachedNetworkImage(
                   imageUrl: products.imageUrl,
+                  height: 90.h,
                   placeholder: (context, url) =>
                       const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => const Icon(
-                    IconlyLight.lock,
-                    size: 200,
+                  errorWidget: (context, url, error) =>
+                      const Icon(IconlyLight.lock),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: TextWidget(
+                          text: products.title,
+                          color: color,
+                          textSize: 15.h,
+                          isTitle: true,
+                        ),
+                      ),
+                      const HeartBTN(),
+                    ],
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: TextWidget(
-                        text: products.title,
-                        color: color,
-                        textSize: 20,
-                        isTitle: true,
+                Padding(
+                  padding: EdgeInsets.all(8.0.r),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        flex: 4,
+                        child: PriceWidget(
+                          salePrice: products.salePrice,
+                          price: products.price,
+                          textPrice: _quantityTextController.text,
+                          isOnSale: products.isOnSale,
+                        ),
                       ),
-                    ),
-                    const HeartBTN(),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      flex: 4,
-                      child: PriceWidget(
-                        salePrice: products.salePrice,
-                        price: products.price,
-                        textPrice: _quantityTextController.text,
-                        isOnSale: products.isOnSale,
+                      SizedBox(
+                        width: 3.w,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Flexible(
-                      child: Row(
-                        children: [
-                          Flexible(
-                            flex: 4,
-                            child: FittedBox(
-                              child: TextWidget(
-                                text: products.isPiece ? 'Piece' : 'KG',
-                                color: color,
-                                textSize: 18,
-                                isTitle: true,
+                      Flexible(
+                        child: Row(
+                          children: [
+                            Flexible(
+                              // flex: 4,
+                              child: FittedBox(
+                                child: TextWidget(
+                                  text: products.isPiece ? 'Piece' : 'KG',
+                                  color: color,
+                                  textSize: 18.h,
+                                  isTitle: true,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Flexible(
-                              flex: 2,
-                              // TextField can be used also instead of the textFormField
-                              child: TextFormField(
-                                controller: _quantityTextController,
-                                key: const ValueKey('10'),
-                                style: TextStyle(color: color, fontSize: 18),
-                                keyboardType: TextInputType.number,
-                                maxLines: 1,
-                                enabled: true,
-                                onChanged: (valueee) {
-                                  setState(() {});
-                                },
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                    RegExp('[0-9.]'),
-                                  ),
-                                ],
-                              ))
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              //  const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                  onPressed: () {
-                    cartProvider.addProductsToCart(
-                        productId: products.id,
-                        quantity: int.parse(_quantityTextController.text));
-                  },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).cardColor),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(12.0),
-                            bottomRight: Radius.circular(12.0),
-                          ),
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            Flexible(
+                                //  flex: 2,
+                                // TextField can be used also instead of the textFormField
+                                child: TextFormField(
+                              controller: _quantityTextController,
+                              key: const ValueKey('10'),
+                              style: TextStyle(color: color, fontSize: 18.h),
+                              keyboardType: TextInputType.number,
+                              maxLines: 1,
+                              enabled: true,
+                              onChanged: (valueee) {
+                                setState(() {});
+                              },
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp('[0-9.]'),
+                                ),
+                              ],
+                            ))
+                          ],
                         ),
-                      )),
-                  child: TextWidget(
-                    text: 'Add to cart',
-                    maxLines: 1,
-                    color: color,
-                    textSize: 20,
+                      )
+                    ],
                   ),
                 ),
-              )
-            ]),
-          ),
+                Expanded(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () {
+                        cartProvider.addProductsToCart(
+                            productId: products.id,
+                            quantity: int.parse(_quantityTextController.text));
+                      },
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              Theme.of(context).cardColor),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(12.0.r),
+                                bottomRight: Radius.circular(12.0.r),
+                              ),
+                            ),
+                          )),
+                      child: TextWidget(
+                        text: 'Add to cart',
+                        maxLines: 1,
+                        color: color,
+                        textSize: 18.h,
+                      ),
+                    ),
+                  ),
+                )
+              ]),
         ),
       ),
     );

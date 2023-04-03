@@ -21,7 +21,7 @@ class WishlistScreen extends StatelessWidget {
         ? const EmptyScreen(
             title: 'Your Wishlist Is Empty',
             subtitle: 'Explore more and shortlist some items',
-            imagePath: 'assets/images/wishlist.png',
+            imagePath: 'images/wishlist.png',
             buttonText: 'Add a wish',
           )
         : Scaffold(

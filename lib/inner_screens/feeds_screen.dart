@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_shopping_with_admin_panel/models/products_model.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/products_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../services/utils.dart';
 import '../widgets/back_widget.dart';
 import '../widgets/feed_items.dart';
@@ -41,14 +41,15 @@ class _FeedsScreenState extends State<FeedsScreen> {
         title: TextWidget(
           text: 'All Products',
           color: color,
-          textSize: 20.0,
+          textSize: 20.0.h,
           isTitle: true,
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0.r),
             child: SizedBox(
               height: kBottomNavigationBarHeight,
               child: TextField(
@@ -59,12 +60,12 @@ class _FeedsScreenState extends State<FeedsScreen> {
                 },
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide:
-                        const BorderSide(color: Colors.greenAccent, width: 1),
+                        BorderSide(color: Colors.greenAccent, width: 1.w),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide:
                         const BorderSide(color: Colors.greenAccent, width: 1),
                   ),

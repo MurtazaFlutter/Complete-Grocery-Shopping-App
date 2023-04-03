@@ -20,6 +20,13 @@ class ProductsProvider with ChangeNotifier {
     return categoryList;
   }
 
+  static final List<String> _offerImages = [
+    'images/offers/Offer1.jpg',
+    'images/offers/Offer2.jpg',
+    'images/offers/Offer3.jpg',
+    'images/offers/Offer4.jpg'
+  ];
+  List get adsList => _offerImages;
   static final List<ProductModel> _productsList = [
     ProductModel(
       id: 'Apric ot',

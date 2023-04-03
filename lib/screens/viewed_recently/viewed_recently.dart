@@ -30,7 +30,7 @@ class _ViewedRecentlyScreenState extends State<ViewedRecentlyScreen> {
         title: 'Your history is empty',
         subtitle: 'No products has been viewed yet!',
         buttonText: 'Shop now',
-        imagePath: 'assets/images/history.png',
+        imagePath: 'images/history.png',
       );
     } else {
       return Scaffold(

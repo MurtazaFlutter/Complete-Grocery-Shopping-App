@@ -97,7 +97,6 @@ class _CategoryProductsState extends State<CategoryProducts> {
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
                   padding: EdgeInsets.zero,
-                  // crossAxisSpacing: 10,
                   childAspectRatio: size.width / (size.height * 0.59),
                   children:
                       List.generate(allProductsByCategory.length, (index) {

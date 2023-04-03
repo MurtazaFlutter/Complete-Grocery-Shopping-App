@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../consts/contss.dart';
 import '../inner_screens/feeds_screen.dart';
 import '../inner_screens/on_sale_screen.dart';
 import '../models/products_model.dart';
@@ -36,12 +35,12 @@ class HomeScreen extends StatelessWidget {
               child: Swiper(
                 itemBuilder: (BuildContext context, int index) {
                   return Image.asset(
-                    Constss.offerImages[index],
+                    productsProvider.adsList[index],
                     fit: BoxFit.fill,
                   );
                 },
                 autoplay: true,
-                itemCount: Constss.offerImages.length,
+                itemCount: productsProvider.adsList.length,
                 pagination: const SwiperPagination(
                     alignment: Alignment.bottomCenter,
                     builder: DotSwiperPaginationBuilder(
@@ -63,8 +62,8 @@ class HomeScreen extends StatelessWidget {
                 textSize: 20.h,
               ),
             ),
-            const SizedBox(
-              height: 6,
+            SizedBox(
+              height: 6.h,
             ),
             Row(
               children: [
@@ -133,7 +132,7 @@ class HomeScreen extends StatelessWidget {
                       text: 'Browse all',
                       maxLines: 1,
                       color: Colors.blue,
-                      textSize: 20,
+                      textSize: 20.h,
                     ),
                   ),
                 ],

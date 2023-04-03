@@ -26,7 +26,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             title: 'You didnt place any order yet',
             subtitle: 'order something and make me happy :)',
             buttonText: 'Shop now',
-            imagePath: 'assets/images/cart.png',
+            imagePath: 'images/cart.png',
           )
         : Scaffold(
             appBar: AppBar(

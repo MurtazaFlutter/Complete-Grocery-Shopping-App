@@ -16,7 +16,7 @@ class OnSaleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<ProductsProvider>(context);
     List<ProductModel> productsOnSale = productsProvider.getProducts;
-    bool isEmpty = false;
+
     final Color color = Utils(context).color;
     Size size = Utils(context).getScreenSize;
     return Scaffold(

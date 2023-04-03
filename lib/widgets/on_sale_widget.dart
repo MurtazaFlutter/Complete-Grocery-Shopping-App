@@ -26,69 +26,81 @@ class OnSaleWidget extends StatelessWidget {
         child: Material(
           color: Theme.of(context).cardColor.withOpacity(0.9),
           borderRadius: BorderRadius.circular(15.r),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(12.r),
-            onTap: () {
-              // GlobalMethods.navigateTo(
-              //     ctx: context, routeName: ProductDetails.routeName);
-              Navigator.pushNamed(context, ProductDetails.routeName,
-                  arguments: productModel.id);
-            },
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: productModel.imageUrl,
-                    height: 150.h,
-                    width: 150.w,
-                  ),
-                  Column(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 10.h),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12.r),
+              onTap: () {
+                // GlobalMethods.navigateTo(
+                //     ctx: context, routeName: ProductDetails.routeName);
+                Navigator.pushNamed(context, ProductDetails.routeName,
+                    arguments: productModel.id);
+              },
+              child: Padding(
+                padding: EdgeInsets.only(left: 8.w),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextWidget(
-                        text: productModel.isPiece ? 'Piece' : 'KG',
-                        color: color,
-                        textSize: 22.h,
-                        isTitle: true,
-                      ),
-                      SizedBox(
-                        height: 6.h,
-                      ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              cartProvider.addProductsToCart(
-                                  productId: productModel.id, quantity: 1);
-                            },
-                            child: Icon(
-                              IconlyLight.bag2,
-                              size: 22.h,
-                              color: color,
+                          Center(
+                            child: CachedNetworkImage(
+                              imageUrl: productModel.imageUrl,
+                              height: 100.h,
+                              width: 100.w,
                             ),
                           ),
-                          const HeartBTN(),
+                          Column(
+                            children: [
+                              TextWidget(
+                                text: productModel.isPiece ? 'Piece' : 'KG',
+                                color: color,
+                                textSize: 18.h,
+                                isTitle: true,
+                              ),
+                              SizedBox(
+                                height: 6.h,
+                              ),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      cartProvider.addProductsToCart(
+                                          productId: productModel.id,
+                                          quantity: 1);
+                                    },
+                                    child: Icon(
+                                      IconlyLight.bag2,
+                                      size: 22.h,
+                                      color: color,
+                                    ),
+                                  ),
+                                  const HeartBTN(),
+                                ],
+                              ),
+                            ],
+                          )
                         ],
                       ),
-                    ],
-                  )
-                ],
+                      PriceWidget(
+                        salePrice: productModel.salePrice,
+                        price: productModel.price,
+                        textPrice: '1',
+                        isOnSale: true,
+                      ),
+                      TextWidget(
+                        text: productModel.title,
+                        color: color,
+                        textSize: 14.h,
+                        isTitle: true,
+                      ),
+                    ]),
               ),
-              PriceWidget(
-                salePrice: productModel.salePrice,
-                price: productModel.price,
-                textPrice: '1',
-                isOnSale: true,
-              ),
-              TextWidget(
-                text: productModel.title,
-                color: color,
-                textSize: 16.h,
-                isTitle: true,
-              ),
-            ]),
+            ),
           ),
         ),
       ),
