@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 import 'consts/theme_data.dart';
 import 'inner_screens/category_products.dart';
@@ -49,29 +51,37 @@ class _MyAppState extends State<MyApp> {
         }),
         ChangeNotifierProvider(create: (_) {
           return ProductsProvider();
+        }),
+        ChangeNotifierProvider(create: (_) {
+          return CartProvider();
         })
       ],
       child:
           Consumer<DarkThemeProvider>(builder: (context, themeProvider, child) {
-        return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            theme: Styles.themeData(themeProvider.getDarkTheme, context),
-            home: const BottomBarScreen(),
-            routes: {
-              OnSaleScreen.routeName: (ctx) => const OnSaleScreen(),
-              FeedsScreen.routeName: (ctx) => const FeedsScreen(),
-              ProductDetails.routeName: (ctx) => const ProductDetails(),
-              WishlistScreen.routeName: (ctx) => const WishlistScreen(),
-              OrdersScreen.routeName: (ctx) => const OrdersScreen(),
-              ViewedRecentlyScreen.routeName: (ctx) =>
-                  const ViewedRecentlyScreen(),
-              RegisterScreen.routeName: (ctx) => const RegisterScreen(),
-              LoginScreen.routeName: (ctx) => const LoginScreen(),
-              ForgetPasswordScreen.routeName: (ctx) =>
-                  const ForgetPasswordScreen(),
-              CategoryProducts.routeName: (context) => const CategoryProducts()
-            });
+        return ScreenUtilInit(
+          designSize: const Size(375, 835),
+          minTextAdapt: true,
+          builder: (context, child) => MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              theme: Styles.themeData(themeProvider.getDarkTheme, context),
+              home: const BottomBarScreen(),
+              routes: {
+                OnSaleScreen.routeName: (ctx) => const OnSaleScreen(),
+                FeedsScreen.routeName: (ctx) => const FeedsScreen(),
+                ProductDetails.routeName: (ctx) => const ProductDetails(),
+                WishlistScreen.routeName: (ctx) => const WishlistScreen(),
+                OrdersScreen.routeName: (ctx) => const OrdersScreen(),
+                ViewedRecentlyScreen.routeName: (ctx) =>
+                    const ViewedRecentlyScreen(),
+                RegisterScreen.routeName: (ctx) => const RegisterScreen(),
+                LoginScreen.routeName: (ctx) => const LoginScreen(),
+                ForgetPasswordScreen.routeName: (ctx) =>
+                    const ForgetPasswordScreen(),
+                CategoryProducts.routeName: (context) =>
+                    const CategoryProducts()
+              }),
+        );
       }),
     );
   }

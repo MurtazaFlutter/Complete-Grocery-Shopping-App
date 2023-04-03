@@ -71,7 +71,13 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
             label: "Categories",
           ),
           BottomNavigationBarItem(
-            icon: Icon(_selectedIndex == 1 ? IconlyBold.buy : IconlyLight.buy),
+            icon: Badge(
+              backgroundColor: Colors.lightBlueAccent,
+              label: const Text('1'),
+              child: Icon(
+                _selectedIndex == 1 ? IconlyBold.buy : IconlyLight.buy,
+              ),
+            ),
             label: "Cart",
           ),
           // BottomNavigationBarItem(

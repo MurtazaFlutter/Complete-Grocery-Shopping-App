@@ -1,8 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import '../consts/contss.dart';
 import '../inner_screens/feeds_screen.dart';
 import '../inner_screens/on_sale_screen.dart';
@@ -14,18 +14,13 @@ import '../widgets/feed_items.dart';
 import '../widgets/on_sale_widget.dart';
 import '../widgets/text_widget.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
   Widget build(BuildContext context) {
     final Utils utils = Utils(context);
-    final themeState = utils.getTheme;
+
     final Color color = Utils(context).color;
     Size size = utils.getScreenSize;
     final productsProvider = Provider.of<ProductsProvider>(context);
@@ -37,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             SizedBox(
-              height: size.height * 0.33,
+              height: 250.h,
               child: Swiper(
                 itemBuilder: (BuildContext context, int index) {
                   return Image.asset(
@@ -53,8 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.white, activeColor: Colors.red)),
               ),
             ),
-            const SizedBox(
-              height: 6,
+            SizedBox(
+              height: 6.h,
             ),
             TextButton(
               onPressed: () {
@@ -65,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 text: 'View all',
                 maxLines: 1,
                 color: Colors.blue,
-                textSize: 20,
+                textSize: 20.h,
               ),
             ),
             const SizedBox(
@@ -80,11 +75,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       TextWidget(
                         text: 'On sale'.toUpperCase(),
                         color: Colors.red,
-                        textSize: 22,
+                        textSize: 22.h,
                         isTitle: true,
                       ),
-                      const SizedBox(
-                        width: 5,
+                      SizedBox(
+                        width: 5.w,
                       ),
                       const Icon(
                         IconlyLight.discount,
@@ -93,13 +88,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  width: 8,
+                SizedBox(
+                  width: 8.w,
                 ),
                 Flexible(
                   child: SizedBox(
-                    height: size.height * 0.24,
+                    height: 230.h,
                     child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
                         itemCount: productOnSale.length < 10
                             ? productOnSale.length
                             : 10,
@@ -113,8 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: 10.h,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

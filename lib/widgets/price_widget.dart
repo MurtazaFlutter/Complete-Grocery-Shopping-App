@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../services/utils.dart';
 import 'text_widget.dart';
@@ -24,17 +25,17 @@ class PriceWidget extends StatelessWidget {
         TextWidget(
           text: '\$${(userPrice * int.parse(textPrice)).toStringAsFixed(2)}',
           color: Colors.green,
-          textSize: 18,
+          textSize: 18.h,
         ),
-        const SizedBox(
-          width: 5,
+        SizedBox(
+          width: 5.w,
         ),
         Visibility(
           visible: isOnSale ? true : false,
           child: Text(
             '\$${(price * int.parse(textPrice)).toStringAsFixed(2)}',
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 15.h,
               color: color,
               decoration: TextDecoration.lineThrough,
             ),

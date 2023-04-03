@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  badges:
+    dependency: "direct main"
+    description:
+      name: badges
+      sha256: d33d4e07197d6e61ddc940640f2b4dc303d3c80887011344940e24d7522f8d26
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -18,7 +26,7 @@ packages:
     source: hosted
     version: "2.1.1"
   cached_network_image:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cached_network_image
       sha256: fd3d0dc1d451f9a252b32d95d3f0c3c487bc41a75eba2e6097cb0b9c71491b15
@@ -158,6 +166,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  flutter_screenutil:
+    dependency: "direct main"
+    description:
+      name: flutter_screenutil
+      sha256: "0a122936b450324cbdfd51be0819cc6fcebb093eb65585e9cd92263f7a1a8a39"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.7.0"
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:

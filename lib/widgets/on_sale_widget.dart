@@ -1,8 +1,9 @@
-import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../inner_screens/product_details.dart';
 import '../models/products_model.dart';
 import '../services/utils.dart';
@@ -10,91 +11,84 @@ import 'heart_btn.dart';
 import 'price_widget.dart';
 import 'text_widget.dart';
 
-class OnSaleWidget extends StatefulWidget {
+class OnSaleWidget extends StatelessWidget {
   const OnSaleWidget({Key? key}) : super(key: key);
 
   @override
-  State<OnSaleWidget> createState() => _OnSaleWidgetState();
-}
-
-class _OnSaleWidgetState extends State<OnSaleWidget> {
-  @override
   Widget build(BuildContext context) {
     final productModel = Provider.of<ProductModel>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
     final Color color = Utils(context).color;
-    final theme = Utils(context).getTheme;
-    Size size = Utils(context).getScreenSize;
+
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Material(
-        color: Theme.of(context).cardColor.withOpacity(0.9),
-        borderRadius: BorderRadius.circular(12),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: () {
-            // GlobalMethods.navigateTo(
-            //     ctx: context, routeName: ProductDetails.routeName);
-            Navigator.pushNamed(context, ProductDetails.routeName,
-                arguments: productModel.id);
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
+      padding: EdgeInsets.all(8.0.r),
+      child: Container(
+        child: Material(
+          color: Theme.of(context).cardColor.withOpacity(0.9),
+          borderRadius: BorderRadius.circular(15.r),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(12.r),
+            onTap: () {
+              // GlobalMethods.navigateTo(
+              //     ctx: context, routeName: ProductDetails.routeName);
+              Navigator.pushNamed(context, ProductDetails.routeName,
+                  arguments: productModel.id);
+            },
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.start,
+                //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  CachedNetworkImage(
+                    imageUrl: productModel.imageUrl,
+                    height: 150.h,
+                    width: 150.w,
+                  ),
+                  Column(
                     children: [
-                      FancyShimmerImage(
-                        imageUrl: productModel.imageUrl,
-                        height: size.width * 0.22,
-                        width: size.width * 0.22,
-                        boxFit: BoxFit.fill,
+                      TextWidget(
+                        text: productModel.isPiece ? 'Piece' : 'KG',
+                        color: color,
+                        textSize: 22.h,
+                        isTitle: true,
                       ),
-                      Column(
+                      SizedBox(
+                        height: 6.h,
+                      ),
+                      Row(
                         children: [
-                          TextWidget(
-                            text: productModel.isPiece ? 'Piece' : 'KG',
-                            color: color,
-                            textSize: 22,
-                            isTitle: true,
+                          GestureDetector(
+                            onTap: () {
+                              cartProvider.addProductsToCart(
+                                  productId: productModel.id, quantity: 1);
+                            },
+                            child: Icon(
+                              IconlyLight.bag2,
+                              size: 22.h,
+                              color: color,
+                            ),
                           ),
-                          const SizedBox(
-                            height: 6,
-                          ),
-                          Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: Icon(
-                                  IconlyLight.bag2,
-                                  size: 22,
-                                  color: color,
-                                ),
-                              ),
-                              const HeartBTN(),
-                            ],
-                          ),
+                          const HeartBTN(),
                         ],
-                      )
+                      ),
                     ],
-                  ),
-                  PriceWidget(
-                    salePrice: productModel.salePrice,
-                    price: productModel.price,
-                    textPrice: '1',
-                    isOnSale: true,
-                  ),
-                  const SizedBox(height: 5),
-                  TextWidget(
-                    text: productModel.title,
-                    color: color,
-                    textSize: 16,
-                    isTitle: true,
-                  ),
-                  const SizedBox(height: 5),
-                ]),
+                  )
+                ],
+              ),
+              PriceWidget(
+                salePrice: productModel.salePrice,
+                price: productModel.price,
+                textPrice: '1',
+                isOnSale: true,
+              ),
+              TextWidget(
+                text: productModel.title,
+                color: color,
+                textSize: 16.h,
+                isTitle: true,
+              ),
+            ]),
           ),
         ),
       ),

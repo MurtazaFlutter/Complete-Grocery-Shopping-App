@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/products_provider.dart';
 import 'package:provider/provider.dart';
 import '../services/utils.dart';
@@ -33,6 +34,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).color;
     final productProvider = Provider.of<ProductsProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
     final productId = ModalRoute.of(context)!.settings.arguments as String;
     final getCurrentProduct = productProvider.findProductById(productId);
     double usedPrice = getCurrentProduct.isOnSale
@@ -265,7 +267,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                           color: Colors.green,
                           borderRadius: BorderRadius.circular(10),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              cartProvider.addProductsToCart(
+                                productId: productId,
+                                quantity:
+                                    int.parse(_quantityTextController.text),
+                              );
+                            },
                             borderRadius: BorderRadius.circular(10),
                             child: Padding(
                                 padding: const EdgeInsets.all(12.0),
