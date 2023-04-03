@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_shopping_with_admin_panel/screens/categories.dart';
 import 'package:provider/provider.dart';
 import 'consts/theme_data.dart';
 import 'inner_screens/category_products.dart';
