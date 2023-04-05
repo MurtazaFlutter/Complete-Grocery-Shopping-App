@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>920488454265-4vk8io87p9sjo5phiaho2jjfj3apr7dt.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.920488454265-4vk8io87p9sjo5phiaho2jjfj3apr7dt</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBaLvKtStEWJ1p9bXrClanmKdSPh2mzddk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>920488454265</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.groceryStrore</string>
+	<key>PROJECT_ID</key>
+	<string>grocery-app-f1ffe</string>
+	<key>STORAGE_BUCKET</key>
+	<string>grocery-app-f1ffe.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:920488454265:ios:a6a1efa74d14c574fb8ca8</string>
+</dict>
+</plist>

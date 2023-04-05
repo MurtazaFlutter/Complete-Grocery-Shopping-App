@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:grocery_shopping_with_admin_panel/firebase_options.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +21,8 @@ import 'screens/orders/orders_screen.dart';
 import 'screens/viewed_recently/viewed_recently.dart';
 import 'screens/wishlist/wishlist_screen.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
