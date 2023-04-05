@@ -5,6 +5,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_shopping_with_admin_panel/models/products_model.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../inner_screens/product_details.dart';
@@ -41,6 +42,10 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     final Color color = Utils(context).color;
     final products = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
+    bool isInCart = cartProvider.getCartItems.containsKey(products.id);
+    final wishListProvider = Provider.of<WishListProvider>(context);
+    final bool IsInWishList =
+        wishListProvider.wishListItems.containsKey(products.id);
 
     Size size = Utils(context).getScreenSize;
     return Padding(
@@ -80,7 +85,10 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                           isTitle: true,
                         ),
                       ),
-                      const HeartBTN(),
+                      HeartBTN(
+                        productId: products.id,
+                        isInWishList: IsInWishList,
+                      ),
                     ],
                   ),
                 ),
@@ -148,9 +156,12 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                     width: double.infinity,
                     child: TextButton(
                       onPressed: () {
-                        cartProvider.addProductsToCart(
-                            productId: products.id,
-                            quantity: int.parse(_quantityTextController.text));
+                        isInCart
+                            ? null
+                            : cartProvider.addProductsToCart(
+                                productId: products.id,
+                                quantity:
+                                    int.parse(_quantityTextController.text));
                       },
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
@@ -166,7 +177,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                             ),
                           )),
                       child: TextWidget(
-                        text: 'Add to cart',
+                        text: isInCart ? "In Cart" : 'Add to cart',
                         maxLines: 1,
                         color: color,
                         textSize: 18.h,

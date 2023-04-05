@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:grocery_shopping_with_admin_panel/models/cart_model.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/products_provider.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../inner_screens/product_details.dart';
@@ -40,12 +41,16 @@ class _CartWidgetState extends State<CartWidget> {
     final productsModel = Provider.of<ProductsProvider>(context);
     final cartModel = Provider.of<CartModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
+    final wishListProvider = Provider.of<WishListProvider>(context);
+
     //final productId = ModalRoute.of(context)!.settings.arguments as String;
     final getCurrentProduct =
         productsModel.findProductById(cartModel.productId);
     double usedPrice = getCurrentProduct.isOnSale
         ? getCurrentProduct.salePrice
         : getCurrentProduct.price;
+    bool? isInwishList =
+        wishListProvider.wishListItems.containsKey(getCurrentProduct.id);
     final Color color = Utils(context).color;
     Size size = Utils(context).getScreenSize;
     return GestureDetector(
@@ -176,7 +181,10 @@ class _CartWidgetState extends State<CartWidget> {
                           const SizedBox(
                             height: 5,
                           ),
-                          const HeartBTN(),
+                          HeartBTN(
+                            productId: getCurrentProduct.id,
+                            isInWishList: isInwishList,
+                          ),
                           TextWidget(
                             text: '\$${usedPrice.toStringAsFixed(2)}',
                             color: color,

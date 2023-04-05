@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 import 'consts/theme_data.dart';
 import 'inner_screens/category_products.dart';
@@ -9,6 +10,7 @@ import 'inner_screens/on_sale_screen.dart';
 import 'inner_screens/product_details.dart';
 import 'provider/dark_theme_provider.dart';
 import 'provider/products_provider.dart';
+import 'provider/viewed_provider_provider.dart';
 import 'screens/auth/forget_pass.dart';
 import 'screens/auth/login.dart';
 import 'screens/auth/register.dart';
@@ -54,6 +56,12 @@ class _MyAppState extends State<MyApp> {
         }),
         ChangeNotifierProvider(create: (_) {
           return CartProvider();
+        }),
+        ChangeNotifierProvider(create: (_) {
+          return WishListProvider();
+        }),
+        ChangeNotifierProvider(create: (_) {
+          return ViewedModelProvider();
         })
       ],
       child:

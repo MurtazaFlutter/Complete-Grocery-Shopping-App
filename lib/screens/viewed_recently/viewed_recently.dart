@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/products_provider.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/viewed_provider_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../services/global_methods.dart';
 import '../../services/utils.dart';
@@ -8,24 +11,25 @@ import '../../widgets/empty_screen.dart';
 import '../../widgets/text_widget.dart';
 import 'viewed_widget.dart';
 
-class ViewedRecentlyScreen extends StatefulWidget {
+// ignore: must_be_immutable
+class ViewedRecentlyScreen extends StatelessWidget {
   static const routeName = '/ViewedRecentlyScreen';
 
   const ViewedRecentlyScreen({Key? key}) : super(key: key);
 
   @override
-  _ViewedRecentlyScreenState createState() => _ViewedRecentlyScreenState();
-}
-
-class _ViewedRecentlyScreenState extends State<ViewedRecentlyScreen> {
-  bool check = true;
-  @override
   Widget build(BuildContext context) {
     Color color = Utils(context).color;
-    bool isEmpty = true;
-    // Size size = Utils(context).getScreenSize;
 
-    if (isEmpty == true) {
+
+    final viewedProductsProvider = Provider.of<ViewedModelProvider>(context);
+    final viewedProductsItemList = viewedProductsProvider
+        .viewProductsItems.values
+        .toList()
+        .reversed
+        .toList();
+
+    if (viewedProductsItemList.isEmpty) {
       return const EmptyScreen(
         title: 'Your history is empty',
         subtitle: 'No products has been viewed yet!',
@@ -63,11 +67,13 @@ class _ViewedRecentlyScreenState extends State<ViewedRecentlyScreen> {
               Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
         ),
         body: ListView.builder(
-            itemCount: 10,
+            itemCount: viewedProductsItemList.length,
             itemBuilder: (ctx, index) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
-                child: ViewedRecentlyWidget(),
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+                child: ChangeNotifierProvider.value(
+                    value: viewedProductsItemList[index],
+                    child: const ViewedRecentlyWidget()),
               );
             }),
       );

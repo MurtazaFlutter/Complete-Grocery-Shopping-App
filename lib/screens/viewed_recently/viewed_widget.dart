@@ -1,7 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
+import 'package:provider/provider.dart';
 import '../../inner_screens/product_details.dart';
+import '../../models/viewed_products_model.dart';
+import '../../provider/products_provider.dart';
 import '../../services/global_methods.dart';
 import '../../services/utils.dart';
 import '../../widgets/text_widget.dart';
@@ -16,6 +21,18 @@ class ViewedRecentlyWidget extends StatefulWidget {
 class _ViewedRecentlyWidgetState extends State<ViewedRecentlyWidget> {
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductsProvider>(context);
+    final viewedProductsModel = Provider.of<ViewedProdcutsModel>(context);
+
+    final getCurrentProduct =
+        productProvider.findProductById(viewedProductsModel.productId);
+    double usedPrice = getCurrentProduct.isOnSale
+        ? getCurrentProduct.salePrice
+        : getCurrentProduct.price;
+
+    final cartProvider = Provider.of<CartProvider>(context);
+    bool? isInCart =
+        cartProvider.getCartItems.containsKey(getCurrentProduct.id);
     Color color = Utils(context).color;
     Size size = Utils(context).getScreenSize;
     return Padding(
@@ -30,29 +47,29 @@ class _ViewedRecentlyWidgetState extends State<ViewedRecentlyWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FancyShimmerImage(
-              imageUrl: 'https://i.ibb.co/F0s3FHQ/Apricots.png',
+              imageUrl: getCurrentProduct.imageUrl,
               boxFit: BoxFit.fill,
               height: size.width * 0.27,
               width: size.width * 0.25,
             ),
-            const SizedBox(
-              width: 12,
+            SizedBox(
+              width: 12.h,
             ),
             Column(
               children: [
                 TextWidget(
-                  text: 'Title',
+                  text: getCurrentProduct.title,
                   color: color,
-                  textSize: 24,
+                  textSize: 24.h,
                   isTitle: true,
                 ),
-                const SizedBox(
-                  height: 12,
+                SizedBox(
+                  height: 12.h,
                 ),
                 TextWidget(
-                  text: '\$12.88',
+                  text: '\$${usedPrice.toStringAsFixed(2)}',
                   color: color,
-                  textSize: 20,
+                  textSize: 20.h,
                   isTitle: false,
                 ),
               ],
@@ -61,20 +78,24 @@ class _ViewedRecentlyWidgetState extends State<ViewedRecentlyWidget> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Material(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.green,
-                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.green,
+                  child: InkWell(
                     borderRadius: BorderRadius.circular(12),
-                    onTap: () {},
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        CupertinoIcons.add,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    )),
-              ),
+                    onTap: isInCart
+                        ? null
+                        : () {
+                            cartProvider.addProductsToCart(
+                                productId: getCurrentProduct.id, quantity: 1);
+                          },
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          isInCart ? Icons.check : IconlyBold.plus,
+                          color: Colors.white,
+                          size: 20.h,
+                        )),
+                  )),
             ),
           ],
         ),

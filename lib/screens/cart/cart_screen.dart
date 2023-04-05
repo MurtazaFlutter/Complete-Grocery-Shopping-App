@@ -14,8 +14,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
-    Size size = Utils(context).getScreenSize;
-    final productsModel = Provider.of<CartProvider>(context);
+
     final cartProvider = Provider.of<CartProvider>(context);
     final cartItemsList =
         cartProvider.getCartItems.values.toList().reversed.toList();
@@ -60,6 +59,7 @@ class CartScreen extends StatelessWidget {
                 _checkout(ctx: context),
                 Expanded(
                   child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     itemCount: cartItemsList.length,
                     itemBuilder: (ctx, index) {
                       return ChangeNotifierProvider.value(

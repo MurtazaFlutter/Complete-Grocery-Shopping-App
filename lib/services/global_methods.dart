@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-
 import '../widgets/text_widget.dart';
 
 class GlobalMethods {
-  static navigateTo({required BuildContext ctx, required String routeName}) {
+  static navigateTo({
+    required BuildContext ctx,
+    required String routeName,
+  }) {
     Navigator.pushNamed(ctx, routeName);
   }
 
@@ -46,6 +48,9 @@ class GlobalMethods {
               TextButton(
                 onPressed: () {
                   fct();
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  }
                 },
                 child: TextWidget(
                   color: Colors.red,

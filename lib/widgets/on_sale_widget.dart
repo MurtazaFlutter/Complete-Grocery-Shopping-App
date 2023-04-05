@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 import '../inner_screens/product_details.dart';
 import '../models/products_model.dart';
@@ -19,6 +20,10 @@ class OnSaleWidget extends StatelessWidget {
     final productModel = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
     final Color color = Utils(context).color;
+    bool? isInCart = cartProvider.getCartItems.containsKey(productModel.id);
+    final wishListProvider = Provider.of<WishListProvider>(context);
+    bool? isInWishList =
+        wishListProvider.wishListItems.containsKey(productModel.id);
 
     return Padding(
       padding: EdgeInsets.all(8.0.r),
@@ -69,17 +74,24 @@ class OnSaleWidget extends StatelessWidget {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      cartProvider.addProductsToCart(
-                                          productId: productModel.id,
-                                          quantity: 1);
+                                      isInCart
+                                          ? null
+                                          : cartProvider.addProductsToCart(
+                                              productId: productModel.id,
+                                              quantity: 1);
                                     },
                                     child: Icon(
-                                      IconlyLight.bag2,
+                                      isInCart
+                                          ? IconlyBold.bag2
+                                          : IconlyLight.bag2,
                                       size: 22.h,
-                                      color: color,
+                                      color: isInCart ? Colors.green : color,
                                     ),
                                   ),
-                                  const HeartBTN(),
+                                  HeartBTN(
+                                    productId: productModel.id,
+                                    isInWishList: isInWishList,
+                                  ),
                                 ],
                               ),
                             ],
