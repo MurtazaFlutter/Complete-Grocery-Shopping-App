@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:grocery_shopping_with_admin_panel/provider/products_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/viewed_provider_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +19,6 @@ class ViewedRecentlyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color color = Utils(context).color;
-
 
     final viewedProductsProvider = Provider.of<ViewedModelProvider>(context);
     final viewedProductsItemList = viewedProductsProvider

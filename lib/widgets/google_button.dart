@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'text_widget.dart';
 
 class GoogleButton extends StatelessWidget {
@@ -14,8 +13,8 @@ class GoogleButton extends StatelessWidget {
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           Container(
             color: Colors.white,
-            child: Image.asset(
-              'assets/images/google.png',
+            child: Image.asset( 
+              'images/google.png',
               width: 40.0,
             ),
           ),

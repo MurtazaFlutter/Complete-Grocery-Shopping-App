@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_shopping_with_admin_panel/firebase_options.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 import 'consts/theme_data.dart';
@@ -22,6 +23,7 @@ import 'screens/viewed_recently/viewed_recently.dart';
 import 'screens/wishlist/wishlist_screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
@@ -65,6 +67,9 @@ class _MyAppState extends State<MyApp> {
         }),
         ChangeNotifierProvider(create: (_) {
           return ViewedModelProvider();
+        }),
+         ChangeNotifierProvider(create: (_) {
+          return AuthProvider();
         })
       ],
       child:
@@ -76,7 +81,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               title: 'Flutter Demo',
               theme: Styles.themeData(themeProvider.getDarkTheme, context),
-              home: const BottomBarScreen(),
+              home: const LoginScreen(),
               routes: {
                 OnSaleScreen.routeName: (ctx) => const OnSaleScreen(),
                 FeedsScreen.routeName: (ctx) => const FeedsScreen(),

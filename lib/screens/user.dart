@@ -1,8 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provider.dart';
+import 'package:grocery_shopping_with_admin_panel/screens/auth/login.dart';
 import 'package:provider/provider.dart';
-
 import '../provider/dark_theme_provider.dart';
 import '../services/global_methods.dart';
 import '../widgets/text_widget.dart';
@@ -29,6 +30,7 @@ class _UserScreenState extends State<UserScreen> {
   @override
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final Color color = themeState.getDarkTheme ? Colors.white : Colors.black;
     return Scaffold(
         body: Center(
@@ -149,7 +151,13 @@ class _UserScreenState extends State<UserScreen> {
                   GlobalMethods.warningDialog(
                       title: 'Sign out',
                       subtitle: 'Do you wanna sign out?',
-                      fct: () {},
+                      fct: () {
+                        authProvider.signOut();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => const LoginScreen())));
+                      },
                       context: context);
                 },
                 color: color,

@@ -18,6 +18,7 @@ class ProductDetails extends StatefulWidget {
   const ProductDetails({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProductDetailsState createState() => _ProductDetailsState();
 }
 

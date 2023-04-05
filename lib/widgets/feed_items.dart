@@ -47,7 +47,6 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     final bool IsInWishList =
         wishListProvider.wishListItems.containsKey(products.id);
 
-    Size size = Utils(context).getScreenSize;
     return Padding(
       padding: EdgeInsets.all(8.0.r),
       child: Material(
