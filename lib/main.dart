@@ -6,6 +6,7 @@ import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
+import 'auth_checker.dart';
 import 'consts/theme_data.dart';
 import 'inner_screens/category_products.dart';
 import 'inner_screens/feeds_screen.dart';
@@ -17,7 +18,6 @@ import 'provider/viewed_provider_provider.dart';
 import 'screens/auth/forget_pass.dart';
 import 'screens/auth/login.dart';
 import 'screens/auth/register.dart';
-import 'screens/btm_bar.dart';
 import 'screens/orders/orders_screen.dart';
 import 'screens/viewed_recently/viewed_recently.dart';
 import 'screens/wishlist/wishlist_screen.dart';
@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               title: 'Flutter Demo',
               theme: Styles.themeData(themeProvider.getDarkTheme, context),
-              home: const LoginScreen(),
+              home: const AuthChecker(),
               routes: {
                 OnSaleScreen.routeName: (ctx) => const OnSaleScreen(),
                 FeedsScreen.routeName: (ctx) => const FeedsScreen(),

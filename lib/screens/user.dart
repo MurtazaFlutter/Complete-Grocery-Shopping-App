@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provider.dart';
+import 'package:grocery_shopping_with_admin_panel/screens/auth/forget_pass.dart';
 import 'package:grocery_shopping_with_admin_panel/screens/auth/login.dart';
 import 'package:provider/provider.dart';
+import '../consts/auth_constans.dart';
 import '../provider/dark_theme_provider.dart';
 import '../services/global_methods.dart';
 import '../widgets/text_widget.dart';
@@ -27,6 +30,7 @@ class _UserScreenState extends State<UserScreen> {
     super.dispose();
   }
 
+  final User? user = auth.currentUser;
   @override
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
@@ -124,7 +128,14 @@ class _UserScreenState extends State<UserScreen> {
               _listTiles(
                 title: 'Forget password',
                 icon: IconlyLight.unlock,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => const ForgetPasswordScreen()),
+                    ),
+                  );
+                },
                 color: color,
               ),
               SwitchListTile(
@@ -145,23 +156,32 @@ class _UserScreenState extends State<UserScreen> {
                 value: themeState.getDarkTheme,
               ),
               _listTiles(
-                title: 'Logout',
-                icon: IconlyLight.logout,
+                title: user == null ? 'Login' : 'Logout',
+                icon: user == null ? IconlyLight.login : IconlyLight.logout,
                 onPressed: () {
+                  if (user == null) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: ((context) => const LoginScreen()),
+                      ),
+                    );
+                    return;
+                  }
                   GlobalMethods.warningDialog(
                       title: 'Sign out',
-                      subtitle: 'Do you wanna sign out?',
-                      fct: () {
-                        authProvider.signOut();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => const LoginScreen())));
+                      subtitle: 'Do you want to sign out?',
+                      fct: () async {
+                        await authProvider.signOut();
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => const LoginScreen()),
+                        ));
                       },
                       context: context);
                 },
                 color: color,
               ),
+
               // listTileAsRow(),
             ],
           ),

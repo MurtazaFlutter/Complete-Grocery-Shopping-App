@@ -8,7 +8,9 @@ import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../consts/auth_constans.dart';
 import '../inner_screens/product_details.dart';
+import '../services/global_methods.dart';
 import '../services/utils.dart';
 import 'heart_btn.dart';
 import 'price_widget.dart';
@@ -44,7 +46,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     final cartProvider = Provider.of<CartProvider>(context);
     bool isInCart = cartProvider.getCartItems.containsKey(products.id);
     final wishListProvider = Provider.of<WishListProvider>(context);
-    final bool IsInWishList =
+    final bool isInWishList =
         wishListProvider.wishListItems.containsKey(products.id);
 
     return Padding(
@@ -86,7 +88,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                       ),
                       HeartBTN(
                         productId: products.id,
-                        isInWishList: IsInWishList,
+                        isInWishList: isInWishList,
                       ),
                     ],
                   ),
@@ -155,6 +157,11 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                     width: double.infinity,
                     child: TextButton(
                       onPressed: () {
+                        user != null
+                            ? GlobalMethods.errorDialog(
+                                subtitle: 'No user found, Please login first',
+                                context: context)
+                            : print(user!.uid);
                         isInCart
                             ? null
                             : cartProvider.addProductsToCart(

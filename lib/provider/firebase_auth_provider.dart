@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import '../consts/auth_constans.dart';
+import '../screens/btm_bar.dart';
+import '../widgets/alert_message.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   bool _isLoading = false;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? _user;
+
+  bool get isAuthenticate => _user != null;
 
   bool get isLoading => _isLoading;
 
   Future<UserCredential?> signUp(
-      {required String email, required String password}) async {
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
     try {
       _isLoading = true;
       notifyListeners();
@@ -17,56 +26,141 @@ class AuthProvider extends ChangeNotifier {
         email: email,
         password: password,
       );
+      _user = userCredential.user;
+      notifyListeners();
       _isLoading = false;
       notifyListeners();
       return userCredential;
     } on FirebaseAuthException catch (e) {
+      alertMessage(e.toString());
       _isLoading = false;
       notifyListeners();
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
       return null;
     } catch (e) {
+      alertMessage(e.toString());
       _isLoading = false;
       notifyListeners();
-      print(e);
       return null;
     }
   }
 
-  Future<UserCredential?> signIn(String email, String password) async {
+  Future<UserCredential?> signIn(
+      String email, String password, BuildContext context) async {
     try {
-      _isLoading = true;
       notifyListeners();
+      _isLoading = true;
       final UserCredential userCredential =
           await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      // ignore: use_build_context_synchronously
       _isLoading = false;
       notifyListeners();
       return userCredential;
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (error) {
+      alertMessage(
+        error.toString(),
+      );
       _isLoading = false;
       notifyListeners();
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
       return null;
     } catch (e) {
+      alertMessage(e.toString());
       _isLoading = false;
       notifyListeners();
-      print(e);
       return null;
     }
   }
 
   Future<void> signOut() async {
     await _auth.signOut();
+    _user = null;
+    notifyListeners();
+  }
+
+  Future<UserCredential?> signInWithGoogle(BuildContext context) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      // Get the sign in instance
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+
+      // start the Google sign in process
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      // If the user succesfully signs in with Google
+      if (googleUser != null) {
+        // Get the Google authentication tokens
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+
+        // Create a firebase creditials using the Google authentication tokens
+        final OAuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        // Navigate to the login screen
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const LoginScreen()),
+        // );
+
+        // Sign in to Firebase using the Firebase credtials
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+
+        _isLoading = false;
+        notifyListeners();
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: ((context) => const BottomBarScreen()),
+          ),
+        );
+        return userCredential;
+      } else {
+        // If the user cancels the sign in process
+        _isLoading = false;
+        notifyListeners();
+        return null;
+      }
+    } on FirebaseAuthException catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      alertMessage(e.message.toString());
+      return null;
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      alertMessage(e.toString());
+      return null;
+    }
+  }
+
+  void checkAuthentication() {
+    auth.authStateChanges().listen((user) {
+      if (user == null) {
+        _user = null;
+      } else {
+        _user = user;
+      }
+      notifyListeners();
+    });
+  }
+
+  Future<void> resetUserPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      alertMessage(e.message.toString());
+      alertMessage(
+          'To reset your password, link has been sent to you succesfully check your inbox ');
+    } catch (e) {
+      alertMessage(e.toString());
+    }
+    notifyListeners();
   }
 }

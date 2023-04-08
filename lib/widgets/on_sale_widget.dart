@@ -4,7 +4,9 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
+import 'package:grocery_shopping_with_admin_panel/services/global_methods.dart';
 import 'package:provider/provider.dart';
+import '../consts/auth_constans.dart';
 import '../inner_screens/product_details.dart';
 import '../models/products_model.dart';
 import '../services/utils.dart';
@@ -73,13 +75,18 @@ class OnSaleWidget extends StatelessWidget {
                               Row(
                                 children: [
                                   GestureDetector(
-                                    onTap: () {
-                                      isInCart
-                                          ? null
-                                          : cartProvider.addProductsToCart(
-                                              productId: productModel.id,
-                                              quantity: 1);
-                                    },
+                                    onTap: isInCart
+                                        ? null
+                                        : () {
+                                            user == null
+                                                ? GlobalMethods.errorDialog(
+                                                    subtitle: 'subtitle',
+                                                    context: context)
+                                                : null;
+                                            cartProvider.addProductsToCart(
+                                                productId: productModel.id,
+                                                quantity: 1);
+                                          },
                                     child: Icon(
                                       isInCart
                                           ? IconlyBold.bag2

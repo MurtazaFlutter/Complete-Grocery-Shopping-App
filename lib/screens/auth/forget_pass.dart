@@ -1,5 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provider.dart';
+import 'package:provider/provider.dart';
 import '../../consts/contss.dart';
 import '../../services/utils.dart';
 import '../../widgets/auth_button.dart';
@@ -24,10 +26,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     super.dispose();
   }
 
-  void _forgetPassFCT() async {}
-
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    void forgetPassFCT() async {
+      authProvider.resetUserPassword(_emailTextController.text.trim());
+    }
+
     Size size = Utils(context).getScreenSize;
     return Scaffold(
       // backgroundColor: Colors.blue,
@@ -93,7 +98,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 AuthButton(
                   buttonText: 'Reset now',
                   fct: () {
-                    _forgetPassFCT();
+                    forgetPassFCT();
                   },
                 ),
               ],

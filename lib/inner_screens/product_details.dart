@@ -8,6 +8,8 @@ import 'package:grocery_shopping_with_admin_panel/provider/products_provider.dar
 import 'package:grocery_shopping_with_admin_panel/provider/viewed_provider_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
+import '../consts/auth_constans.dart';
+import '../services/global_methods.dart';
 import '../services/utils.dart';
 import '../widgets/heart_btn.dart';
 import '../widgets/text_widget.dart';
@@ -291,13 +293,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                             borderRadius: BorderRadius.circular(10),
                             child: InkWell(
                               onTap: () {
-                                isInCart
-                                    ? null
-                                    : cartProvider.addProductsToCart(
-                                        productId: productId,
-                                        quantity: int.parse(
-                                            _quantityTextController.text),
-                                      );
+                                user != null
+                                    ? GlobalMethods.errorDialog(
+                                        subtitle:
+                                            'No user found, Please login first',
+                                        context: context)
+                                    : isInCart
+                                        ? null
+                                        : cartProvider.addProductsToCart(
+                                            productId: getCurrentProduct.id,
+                                            quantity: 1);
                               },
                               borderRadius: BorderRadius.circular(10),
                               child: Padding(
