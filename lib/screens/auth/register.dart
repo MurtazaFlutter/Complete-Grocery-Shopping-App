@@ -57,6 +57,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         authProvider.signUp(
             email: _emailTextController.text.trim(),
             password: _passTextController.text.trim(),
+            name: _fullNameController.text,
+            shippingAddress: _addressTextController.text,
+            userCart: [],
+            userWish: [],
+            createdAt: 1,
             context: context);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: ((context) => const BottomBarScreen())));

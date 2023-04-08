@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 import '../consts/auth_constans.dart';
 import '../screens/btm_bar.dart';
 import '../widgets/alert_message.dart';
@@ -17,6 +19,11 @@ class AuthProvider extends ChangeNotifier {
   Future<UserCredential?> signUp(
       {required String email,
       required String password,
+      required String name,
+      required String shippingAddress,
+      required List userCart,
+      required List userWish,
+      required int createdAt,
       required BuildContext context}) async {
     try {
       _isLoading = true;
@@ -26,6 +33,16 @@ class AuthProvider extends ChangeNotifier {
         email: email,
         password: password,
       );
+      final uid = user!.uid;
+      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        'id': uid,
+        'name': name,
+        'email': email,
+        'shipping address': shippingAddress,
+        'userWish': userWish,
+        'userCart': userCart,
+        'createdAt': createdAt,
+      });
       _user = userCredential.user;
       notifyListeners();
       _isLoading = false;
@@ -154,10 +171,10 @@ class AuthProvider extends ChangeNotifier {
   Future<void> resetUserPassword(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-    } on FirebaseAuthException catch (e) {
-      alertMessage(e.message.toString());
       alertMessage(
           'To reset your password, link has been sent to you succesfully check your inbox ');
+    } on FirebaseAuthException catch (e) {
+      alertMessage(e.message.toString());
     } catch (e) {
       alertMessage(e.toString());
     }
