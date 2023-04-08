@@ -2,7 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provider.dart';
 import 'package:provider/provider.dart';
-import '../../consts/contss.dart';
+import '../../provider/auth_images_provider.dart';
 import '../../services/utils.dart';
 import '../../widgets/auth_button.dart';
 import '../../widgets/back_widget.dart';
@@ -29,6 +29,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final authImagesProvider =
+        Provider.of<AuthImagesProvider>(context, listen: false);
     void forgetPassFCT() async {
       authProvider.resetUserPassword(_emailTextController.text.trim());
     }
@@ -39,17 +41,18 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       body: Stack(
         children: [
           Swiper(
-            itemBuilder: (BuildContext context, int index) {
-              return Image.asset(
-                Constss.authImagesPaths[index],
-                fit: BoxFit.cover,
-              );
-            },
-            autoplay: true,
-            itemCount: Constss.authImagesPaths.length,
+              itemBuilder: (BuildContext context, int index) {
+                final List images = authImagesProvider.authImages;
+                return Image.asset(
+                  images[index],
+                  fit: BoxFit.cover,
+                );
+              },
+              autoplay: true,
+              itemCount: authImagesProvider.authImages.length
 
-            // control: const SwiperControl(),
-          ),
+              // control: const SwiperControl(),
+              ),
           Container(
             color: Colors.black.withOpacity(0.7),
           ),

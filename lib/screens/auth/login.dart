@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provider.dart';
 import 'package:provider/provider.dart';
-import '../../consts/contss.dart';
+import '../../provider/auth_images_provider.dart';
 import '../../services/global_methods.dart';
 import '../../widgets/auth_button.dart';
 import '../../widgets/google_button.dart';
@@ -38,6 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final authImagesProvider =
+        Provider.of<AuthImagesProvider>(context, listen: false);
+
     void submitFormOnLogin() {
       final isValid = _formKey.currentState!.validate();
       FocusScope.of(context).unfocus();
@@ -56,17 +59,17 @@ class _LoginScreenState extends State<LoginScreen> {
             )
           : Stack(children: [
               Swiper(
-                duration: 800,
-                autoplayDelay: 8000,
-                itemBuilder: (BuildContext context, int index) {
-                  return Image.asset(
-                    Constss.authImagesPaths[index],
-                    fit: BoxFit.cover,
-                  );
-                },
-                autoplay: true,
-                itemCount: Constss.authImagesPaths.length,
-              ),
+                  duration: 800,
+                  autoplayDelay: 8000,
+                  itemBuilder: (BuildContext context, int index) {
+                    final List images = authImagesProvider.authImages;
+                    return Image.asset(
+                      images[index],
+                      fit: BoxFit.cover,
+                    );
+                  },
+                  autoplay: true,
+                  itemCount: authImagesProvider.authImages.length),
               Container(
                 color: Colors.black.withOpacity(0.7),
               ),

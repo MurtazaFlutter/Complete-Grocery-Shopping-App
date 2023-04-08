@@ -3,10 +3,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/auth_images_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/screens/btm_bar.dart';
 import 'package:provider/provider.dart';
-import '../../consts/contss.dart';
 import '../../services/global_methods.dart';
 import '../../services/utils.dart';
 import '../../widgets/auth_button.dart';
@@ -48,6 +48,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final authImagesProvider =
+        Provider.of<AuthImagesProvider>(context, listen: false);
     final theme = Utils(context).getTheme;
     void submitFormOnRegister() async {
       final isValid = _formKey.currentState!.validate();
@@ -80,17 +82,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Swiper(
                   duration: 800,
                   autoplayDelay: 6000,
-
                   itemBuilder: (BuildContext context, int index) {
+                    final List images = authImagesProvider.authImages;
                     return Image.asset(
-                      Constss.authImagesPaths[index],
+                      images[index],
                       fit: BoxFit.cover,
                     );
                   },
                   autoplay: true,
-                  itemCount: Constss.authImagesPaths.length,
-
-                  // control: const SwiperControl(),
+                  itemCount: authImagesProvider.authImages.length,
                 ),
                 Container(
                   color: Colors.black.withOpacity(0.7),

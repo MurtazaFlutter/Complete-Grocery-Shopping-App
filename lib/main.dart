@@ -7,6 +7,7 @@ import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provide
 import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 import 'auth_checker.dart';
+import 'provider/auth_images_provider.dart';
 import 'consts/theme_data.dart';
 import 'inner_screens/category_products.dart';
 import 'inner_screens/feeds_screen.dart';
@@ -14,6 +15,7 @@ import 'inner_screens/on_sale_screen.dart';
 import 'inner_screens/product_details.dart';
 import 'provider/dark_theme_provider.dart';
 import 'provider/products_provider.dart';
+import 'provider/user_info_provider.dart';
 import 'provider/viewed_provider_provider.dart';
 import 'screens/auth/forget_pass.dart';
 import 'screens/auth/login.dart';
@@ -56,6 +58,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) {
           return themeChangeProvider;
         }),
+        ChangeNotifierProvider(create: (context) => AuthImagesProvider()),
         ChangeNotifierProvider(create: (_) {
           return ProductsProvider();
         }),
@@ -68,8 +71,11 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) {
           return ViewedModelProvider();
         }),
-         ChangeNotifierProvider(create: (_) {
+        ChangeNotifierProvider(create: (_) {
           return AuthProvider();
+        }),
+        ChangeNotifierProvider(create: (_) {
+          return UserDataProvider();
         })
       ],
       child:

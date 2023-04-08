@@ -71,21 +71,26 @@ class AuthProvider extends ChangeNotifier {
         email: email,
         password: password,
       );
-      // ignore: use_build_context_synchronously
       _isLoading = false;
       notifyListeners();
       return userCredential;
     } on FirebaseAuthException catch (error) {
+      _isLoading = false;
+      notifyListeners();
       alertMessage(
         error.toString(),
       );
       _isLoading = false;
       notifyListeners();
+
       return null;
     } catch (e) {
+      _isLoading = false;
+      notifyListeners();
       alertMessage(e.toString());
       _isLoading = false;
       notifyListeners();
+
       return null;
     }
   }
@@ -180,4 +185,6 @@ class AuthProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  //
 }

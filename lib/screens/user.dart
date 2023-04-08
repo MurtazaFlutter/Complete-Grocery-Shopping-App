@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provider.dart';
+import 'package:grocery_shopping_with_admin_panel/provider/user_info_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/screens/auth/forget_pass.dart';
 import 'package:grocery_shopping_with_admin_panel/screens/auth/login.dart';
 import 'package:provider/provider.dart';
@@ -30,15 +31,25 @@ class _UserScreenState extends State<UserScreen> {
     super.dispose();
   }
 
+  // @override
+  // void initState() {
+  //   Provider.of<UserDataProvider>(context, listen: false).getUserData(context);
+  //   super.initState();
+  // }
+
   final User? user = auth.currentUser;
   @override
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
+    final userDataProvider =
+        Provider.of<UserDataProvider>(context, listen: false);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final Color color = themeState.getDarkTheme ? Colors.white : Colors.black;
+
     return Scaffold(
         body: Center(
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -58,7 +69,7 @@ class _UserScreenState extends State<UserScreen> {
                   ),
                   children: <TextSpan>[
                     TextSpan(
-                        text: 'MyName',
+                        text: userDataProvider.name ?? '',
                         style: TextStyle(
                           color: color,
                           fontSize: 25,
@@ -75,7 +86,7 @@ class _UserScreenState extends State<UserScreen> {
                 height: 5,
               ),
               TextWidget(
-                text: 'Email@email.com',
+                text: userDataProvider.email ?? '',
                 color: color,
                 textSize: 18,
                 // isTitle: true,
