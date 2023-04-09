@@ -154,7 +154,7 @@ class _UserScreenState extends State<UserScreen> {
                   text: themeState.getDarkTheme ? 'Dark mode' : 'Light mode',
                   color: color,
                   textSize: 18,
-                  // isTitle: true,
+                  isTitle: true,
                 ),
                 secondary: Icon(themeState.getDarkTheme
                     ? Icons.dark_mode_outlined
@@ -202,22 +202,27 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   Future<void> _showAddressDialog() async {
+    final userDataProvider =
+        Provider.of<UserDataProvider>(context, listen: false);
+
     await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: const Text('Update'),
             content: TextField(
-              // onChanged: (value) {
-              //   print('_addressTextController.text ${_addressTextController.text}');
-              // },
               controller: _addressTextController,
               maxLines: 5,
               decoration: const InputDecoration(hintText: "Your address"),
             ),
             actions: [
               TextButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await userDataProvider.updateAddress(
+                    _addressTextController,
+                    context,
+                  );
+                },
                 child: const Text('Update'),
               ),
             ],

@@ -5,7 +5,6 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/auth_images_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provider.dart';
-import 'package:grocery_shopping_with_admin_panel/screens/btm_bar.dart';
 import 'package:provider/provider.dart';
 import '../../services/global_methods.dart';
 import '../../services/utils.dart';
@@ -65,8 +64,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             userWish: [],
             createdAt: 1,
             context: context);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: ((context) => const BottomBarScreen())));
       }
     }
 
@@ -74,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: authProvider.isLoading
           ? const Center(
               child: SpinKitThreeBounce(
-                color: Colors.red,
+                color: Colors.green,
               ),
             )
           : Stack(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_shopping_with_admin_panel/screens/btm_bar.dart';
 import 'package:provider/provider.dart';
-import 'provider/firebase_auth_provider.dart';
-import 'screens/auth/login.dart';
+import '../../provider/firebase_auth_provider.dart';
+import 'login.dart';
 
 class AuthChecker extends StatefulWidget {
   const AuthChecker({super.key});

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import '../consts/auth_constans.dart';
 import '../screens/btm_bar.dart';
 import '../widgets/alert_message.dart';
@@ -26,14 +25,14 @@ class AuthProvider extends ChangeNotifier {
       required int createdAt,
       required BuildContext context}) async {
     try {
-      _isLoading = true;
-      notifyListeners();
       final UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      final uid = user!.uid;
+      _isLoading = true;
+      notifyListeners();
+      final uid = userCredential.user!.uid;
       await FirebaseFirestore.instance.collection('users').doc(uid).set({
         'id': uid,
         'name': name,
@@ -44,20 +43,16 @@ class AuthProvider extends ChangeNotifier {
         'createdAt': createdAt,
       });
       _user = userCredential.user;
-      notifyListeners();
-      _isLoading = false;
-      notifyListeners();
       return userCredential;
     } on FirebaseAuthException catch (e) {
       alertMessage(e.toString());
-      _isLoading = false;
-      notifyListeners();
       return null;
     } catch (e) {
       alertMessage(e.toString());
+      return null;
+    } finally {
       _isLoading = false;
       notifyListeners();
-      return null;
     }
   }
 

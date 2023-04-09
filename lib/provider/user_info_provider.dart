@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_shopping_with_admin_panel/consts/auth_constans.dart';
+import 'package:grocery_shopping_with_admin_panel/widgets/alert_message.dart';
 import '../services/global_methods.dart';
 
 class UserDataProvider extends ChangeNotifier {
@@ -44,5 +45,22 @@ class UserDataProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  Future<void> updateAddress(
+      TextEditingController controller, BuildContext context) async {
+    String uid = user!.uid;
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(uid).update({
+        'shipping address': controller.text,
+      });
+    } catch (error) {
+      alertMessage(
+        error.toString(),
+      );
+    }
+    _address = controller.text;
+    notifyListeners();
+    Navigator.pop(context);
   }
 }

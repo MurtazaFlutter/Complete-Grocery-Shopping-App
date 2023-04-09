@@ -6,7 +6,7 @@ import 'package:grocery_shopping_with_admin_panel/provider/cart_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/firebase_auth_provider.dart';
 import 'package:grocery_shopping_with_admin_panel/provider/wishlist_provider.dart';
 import 'package:provider/provider.dart';
-import 'auth_checker.dart';
+import 'screens/auth/auth_checker.dart';
 import 'provider/auth_images_provider.dart';
 import 'consts/theme_data.dart';
 import 'inner_screens/category_products.dart';
